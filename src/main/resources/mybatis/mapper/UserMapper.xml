@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dragon.vueDemo.mapper.UserMapper">
+ <insert id="insert" parameterType="com.dragon.vueDemo.bean.User" keyColumn="user_id" keyProperty="userId" useGeneratedKeys="true">
+ 	insert into user(username, password, address, title, sex, age, create_time, modify_time) values(#{username}, #{password}, #{address}, #{title}, #{sex}, #{age}, #{createTime}, #{modifyTime})
+ </insert>
+ <select id="selectUserAnd" parameterType="com.dragon.vueDemo.bean.UserCondition" resultType="com.dragon.vueDemo.bean.User">
+ 	select user_id, username, password, address, title, sex, age, create_time, modify_time from user
+ 	<if test="userCondition != null">
+ 	<where>
+ 		<if test="userCondition.userId != null">
+ 		user_id=#{userCondition.userId}
+ 		</if>
+ 		<if test="userCondition.username != null and !userCondition.username.equals('')">
+ 		and username=#{userCondition.username}
+ 		</if>
+ 		<if test="userCondition.password != null and !userCondition.password.equals('')">
+ 		and password=#{userCondition.password}
+ 		</if>
+ 		<if test="userCondition.address != null and !userCondition.address.equals('')">
+ 		and address=#{userCondition.address}
+ 		</if>
+ 		<if test="userCondition.title != null and !userCondition.title.equals('')">
+ 		and title=#{userCondition.title}
+ 		</if>
+ 		<if test="userCondition.sex != null and !userCondition.sex.equals('')">
+ 		and sex=#{userCondition.sex}
+ 		</if>
+ 		<if test="userCondition.minAge != null">
+ 		and age<![CDATA[>=]]>#{userCondition.minAge}
+ 		</if>
+ 		<if test="userCondition.maxAge != null">
+ 		and age<![CDATA[<=]]>#{userCondition.maxAge}
+ 		</if>
+ 		<if test="userCondition.minCreateTime != null and !userCondition.minCreateTime.equals('')">
+ 		and create_time<![CDATA[>=]]>#{userCondition.minCreateTime}
+ 		</if>
+ 		<if test="userCondition.maxCreateTime != null and !userCondition.maxCreateTime.equals('')">
+ 		and create_time<![CDATA[<=]]>#{userCondition.maxCreateTime}
+ 		</if>
+ 		<if test="userCondition.minModifyTime != null and !userCondition.user.equals('')">
+ 		and modify_time<![CDATA[>=]]>#{userCondition.minModifyTime}
+ 		</if>
+ 		<if test="userCondition.maxModifyTime != null and !userCondition.user.equals('')">
+ 		and modify_time<![CDATA[<=]]>#{userCondition.maxModifyTime}
+ 		</if>
+ 	</where>
+ 	</if>
+ </select>
+</mapper>
